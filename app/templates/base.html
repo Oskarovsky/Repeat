@@ -1,0 +1,23 @@
+<html>
+
+    <head>
+
+        {% if title %}
+            <title>{{ title }} - Repeat</title>
+        {% else %}
+            <title>Welcome to Repeat</title>
+        {% endif %}
+
+    </head>
+
+
+
+    <body>
+
+        <div>Repeat: <a href="/index">Home</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+
+    </body>
+
+</html>
