@@ -1,4 +1,7 @@
 All the flask commands rely on the FLASK_APP environment variable to know where the Flask application lives
+db - this is the name of database, which we've declared before (it can be different in other projects)
+
+TERMINAL
 
 flask run           -> sub-command that is native to Flask (running web)
 flask db            -> sub-command which is added by Flask-Migrate to manage everything related to database migrations
@@ -8,3 +11,22 @@ flask db migrate    -> sub-command generates automatic migrations (f.e flask db 
 flask db upgrade    -> sub-command which applies the migration
                         to apply the changes to the database, this command must be used
 flask db downgrade  -> sub-command which removes migration, this also undoeas the last migration
+
+
+=============================
+
+CODE
+
+db.session                      -> context of a session
+db.session.add(any_variable)    -> add new elements to the session
+db.session.commit()             -> register all changes which are accumulated in session
+                                    it writes all changes automatically
+db.session.rollback             -> abort the session and remove any changes stored in it
+db.session.delete(any_variable) -> erase created data, so the database is cleaning (remove post, visit etc...)
+
+
+
+
+
+
+
