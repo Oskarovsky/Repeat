@@ -1,0 +1,10 @@
+All the flask commands rely on the FLASK_APP environment variable to know where the Flask application lives
+
+flask run           -> sub-command that is native to Flask (running web)
+flask db            -> sub-command which is added by Flask-Migrate to manage everything related to database migrations
+flask db init       -> creating migration repository for RepEAT (or other web app)
+flask db migrate    -> sub-command generates automatic migrations (f.e flask db migrate -m 'users table')
+                        it doesn't make any changes to the database, but it just only generates migration script
+flask db upgrade    -> sub-command which applies the migration
+                        to apply the changes to the database, this command must be used
+flask db downgrade  -> sub-command which removes migration, this also undoeas the last migration
