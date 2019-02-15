@@ -44,21 +44,11 @@
         </form>
 
         {% for post in posts %}
-            <table>
-                <tr valign="top">
-                    <td><img src="{{ image_file }}" width="60"></td>
-                    <td>{{ post.author.username }} says: <b>{{ post.body }}</b></td>
-                </tr>
-            </table>
+            {% include '_post.html' %}
         {% endfor %}
 
         {% for visit in visits %}
-            <table>
-                <tr valign="top">
-                    <td><img src="{{ image_file }}" width="60"></td>
-                    <td>{{ visit.author.username }} says: <b>{{ visit.body }}</b></td>
-                </tr>
-            </table>
+            {% include '_visit.html' %}
         {% endfor %}
 
     </div>
