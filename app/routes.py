@@ -76,3 +76,18 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+@app.route('/user/<username>')      # f.e. /user/oskarro   --> username=oskarro
+@login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = [
+        {'author': user, 'body': 'Test post #1', 'food_type': 'seafood'},
+        {'author': user, 'body': 'Test post #2', 'food_type': 'polish food'}
+    ]
+    visits = [
+        {'author': user, 'body': 'Test visit #1', 'food_type': 'greece good', 'place': 'BMG', 'rate': 8},
+        {'author': user, 'body': 'Test visit #2', 'food_type': 'traditional food', 'place': 'Kucharek szesc', 'rate': 7}
+    ]
+    return render_template('user.html', user=user, posts=posts, visits=visits)
+
+
