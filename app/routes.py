@@ -76,11 +76,20 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/user/<username>')      # f.e. /user/oskarro   --> username=oskarro
+@app.route('/user/<username>', methods=['GET', 'POST'])      # f.e. /user/oskarro   --> username=oskarro
 @login_required
 def user(username):
     form = UpdateForm()
     user = User.query.filter_by(username=username).first_or_404()
+    if form.validate_on_submit():
+        user.username = form.username.data
+        user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('user', username=form.username.data, email=form.email.data))
+    elif request.method == 'GET':
+        form.username.data = user.username
+        form.email.data = user.email
     default = 'default.jpg'
     posts = [
         {'author': user, 'body': 'Test post #1', 'food_type': 'seafood'},
