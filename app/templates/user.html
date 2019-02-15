@@ -2,12 +2,6 @@
 
 {% block content %}
 
-
-    {% for post in posts %}
-        <p>{{ post.author.username }} says: <b>{{ post.body }}</b></p>
-    {% endfor %}
-
-
     <div class="content-section">
         <div class="media">
             <img class="rounded-circle account-img" src="{{ image_file }}" width="140">
@@ -48,6 +42,25 @@
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </form>
+
+        {% for post in posts %}
+            <table>
+                <tr valign="top">
+                    <td><img src="{{ image_file }}" width="60"></td>
+                    <td>{{ post.author.username }} says: <b>{{ post.body }}</b></td>
+                </tr>
+            </table>
+        {% endfor %}
+
+        {% for visit in visits %}
+            <table>
+                <tr valign="top">
+                    <td><img src="{{ image_file }}" width="60"></td>
+                    <td>{{ visit.author.username }} says: <b>{{ visit.body }}</b></td>
+                </tr>
+            </table>
+        {% endfor %}
+
     </div>
 
 {% endblock %}
