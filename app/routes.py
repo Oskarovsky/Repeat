@@ -3,7 +3,7 @@ from flask_login import current_user, logout_user, login_user, login_required
 from werkzeug.urls import url_parse
 
 from app import app, db
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, UpdateForm
 from app.models import User
 
 
@@ -37,7 +37,7 @@ def index():
     return render_template('index.html', title='Home Page', posts=posts, visits=visits)
 
 
-@app.route('/login',  methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -50,7 +50,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for(next_page)
+            next_page = url_for('index')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
@@ -79,7 +79,9 @@ def register():
 @app.route('/user/<username>')      # f.e. /user/oskarro   --> username=oskarro
 @login_required
 def user(username):
+    form = UpdateForm()
     user = User.query.filter_by(username=username).first_or_404()
+    default = 'default.jpg'
     posts = [
         {'author': user, 'body': 'Test post #1', 'food_type': 'seafood'},
         {'author': user, 'body': 'Test post #2', 'food_type': 'polish food'}
@@ -88,6 +90,10 @@ def user(username):
         {'author': user, 'body': 'Test visit #1', 'food_type': 'greece good', 'place': 'BMG', 'rate': 8},
         {'author': user, 'body': 'Test visit #2', 'food_type': 'traditional food', 'place': 'Kucharek szesc', 'rate': 7}
     ]
-    return render_template('user.html', user=user, posts=posts, visits=visits)
+    if url_for('static', filename='profile_pics/' + username):
+        image_file = url_for('static', filename='profile_pics/' + default)
+    else:
+        image_file = url_for('static', filename='profile_pics/' + user.image_file)
+    return render_template('user.html', user=user, posts=posts, visits=visits, image_file=image_file, form=form)
 
 
