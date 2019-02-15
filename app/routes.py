@@ -1,3 +1,5 @@
+import secrets
+import os
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, logout_user, login_user, login_required
 from werkzeug.urls import url_parse
@@ -76,12 +78,27 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+
+# function for saving users picture
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)  # method for splitting on two name fragments of file
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+    form_picture.save(picture_path)
+    return picture_fn
+
+
 @app.route('/user/<username>', methods=['GET', 'POST'])      # f.e. /user/oskarro   --> username=oskarro
 @login_required
 def user(username):
     form = UpdateForm()
     user = User.query.filter_by(username=username).first_or_404()
+    # update users account
     if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            user.image_file = picture_file
         user.username = form.username.data
         user.email = form.email.data
         db.session.commit()
@@ -99,10 +116,7 @@ def user(username):
         {'author': user, 'body': 'Test visit #1', 'food_type': 'greece good', 'place': 'BMG', 'rate': 8},
         {'author': user, 'body': 'Test visit #2', 'food_type': 'traditional food', 'place': 'Kucharek szesc', 'rate': 7}
     ]
-    if url_for('static', filename='profile_pics/' + username):
-        image_file = url_for('static', filename='profile_pics/' + default)
-    else:
-        image_file = url_for('static', filename='profile_pics/' + user.image_file)
+    image_file = url_for('static', filename='profile_pics/' + user.image_file)
     return render_template('user.html', user=user, posts=posts, visits=visits, image_file=image_file, form=form)
 
 
