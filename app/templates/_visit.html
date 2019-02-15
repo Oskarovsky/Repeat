@@ -1,0 +1,11 @@
+<table>
+    <tr valign="top">
+        <td><img src="{{ image_file }}" width="60"></td>
+        <td>
+            {{ visit.author.username }} was at: <b>{{ visit.place }}</b><br>
+            Food type: {{ visit.food_type }}&emsp;&emsp;
+            Rate: {{ visit.rate }}<br>
+            {{ visit.body }}
+        </td>
+    </tr>
+</table><br>

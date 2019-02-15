@@ -2,21 +2,25 @@
 
 {% block content %}
     <h1>Sign In</h1>
-    <form action="" method="post" novalidate>
+    <form action="" method="post" novalidate enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
+            <div class="invalid-feedback">
             {% for error in form.username.errors %}
-                <span style="color: red;">[{{ error }}]</span>
+                <span style="color: red;">{{ error }}</span>
             {% endfor %}
+            </div>
         </p>
         <p>
             {{ form.password.label }}<br>
             {{ form.password(size=32) }}<br>
+            <div class="invalid-feedback">
             {% for error in form.password.errors %}
-                <span style="color: red;">[{{ error }}]</span>
+                <span style="color: red;">{{ error }}</span>
             {% endfor %}
+            </div>
         </p>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>

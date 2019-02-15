@@ -19,10 +19,13 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     visits = db.relationship('Visit', backref='author', lazy='dynamic')
+    image_file = db.Column(db.String(50), nullable=True, default='default.jpg')
+    about_me = db.Column(db.String(140))
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
     # this method tells how to print objects of this class, which is going to be useful for debugging
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
     # password hashing logic - generating password
     def set_password(self, password):
