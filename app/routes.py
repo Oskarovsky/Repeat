@@ -3,6 +3,7 @@ import os
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, logout_user, login_user, login_required
 from werkzeug.urls import url_parse
+from PIL import Image
 
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, UpdateForm
@@ -82,10 +83,15 @@ def register():
 # function for saving users picture
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)  # method for splitting on two name fragments of file
+    _, f_ext = os.path.splitext(form_picture.filename)  # method for splitting on two names fragments of file
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
-    form_picture.save(picture_path)
+
+    # resizing uploaded image
+    output_size = (140, 140)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
     return picture_fn
 
 
