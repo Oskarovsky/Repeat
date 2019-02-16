@@ -74,6 +74,11 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -142,6 +147,8 @@ def user(username):
 def edit_profile(username):
     form = UpdateForm()
     user = User.query.filter_by(username=username).first_or_404()
+    # if validate_on_submit() returns True, the data is copying from the form into the user object
+    # and then it is writing the object to the database
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
