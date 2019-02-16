@@ -136,3 +136,27 @@ def user(username):
     return render_template('user.html', user=user, posts=posts, visits=visits, image_file=image_file, form=form)
 
 
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = UpdateForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            user.image_file = picture_file
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('user', username=form.username.data, email=form.email.data, about_me=form.about_me.data))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+        form.about_me.data = current_user.about_me
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('edit_profile.html', title='Edit Profile', form=form, image_file=image_file)
+
+
+
