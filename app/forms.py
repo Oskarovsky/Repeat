@@ -42,6 +42,7 @@ class UpdateForm(FlaskForm):
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Update')
 
+
     # function checks if entered username is not already in database
     # it also compares entered new username with present username
     def validate_username(self, username):
