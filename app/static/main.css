@@ -54,7 +54,8 @@ a.article-title:hover {
 .article-metadata {
   padding-bottom: 1px;
   margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+  border-bottom: 1px solid #e3e3e3;
+  width: 300px
 }
 
 .article-metadata a:hover {
@@ -77,4 +78,22 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+
+.post-img {
+  height: 70px;
+  width: 70px;
+  margin-right: 10px;
+}
+
+.post-description {
+
+}
+
+.post-food-type {
+
+}
+
+.post-timestamp {
+  display: inline-block;
 }

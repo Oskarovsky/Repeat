@@ -16,4 +16,4 @@ migrate = Migrate(app, db)  # object that represents migration engine
 login = LoginManager(app)   # object for managing the user logged-in state
 login.login_view = 'login'  # function (or endpoint) name for the login view. this is the name to use in a url_for()
 
-from app import routes, models
+from app import routes, models, errors

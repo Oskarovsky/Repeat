@@ -40,6 +40,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
     food_type = db.Column(db.String(140))
+    description = db.Column(db.String(3000))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -51,6 +52,7 @@ class Visit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
     food_type = db.Column(db.String(140))
+    description = db.Column(db.String(3000))
     place = db.Column(db.String(140))
     rate = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)

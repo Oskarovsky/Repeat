@@ -1,9 +1,19 @@
-<table>
-    <tr valign="top">
-        <td><img src="{{ image_file }}" width="60"></td>
-        <td>
-            {{ post.author.username }} cooked: <b>{{ post.body }}</b><br>
-            Food type: {{ post.food_type }}
-        </td>
-    </tr>
-</table><br>
+<article class="media content-section">
+    <table>
+        <tr valign="top">
+            <td><img class="rounded-circle post-img" src="{{ image_file }}" width="10" height="60"></td>
+            <td>
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="{{ url_for('user', username=post.author.username) }}">{{ post.author.username }}</a>
+                    </div>
+                    <h4><a class="article-title" href="#">{{ post.body }}</a></h4>
+                    <div class="post-food-type">Food type: {{ post.food_type }}</div>
+                    <div class="post-description">Description: {{ post.description }}</div>
+                </div>
+            </td>
+            <td><div class="post-timestamp" align="right">{{ post.timestamp }}</div></td>
+        </tr>
+    </table>
+</article>
+
