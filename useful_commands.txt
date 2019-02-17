@@ -27,6 +27,24 @@ db.session.delete(any_variable) -> erase created data, so the database is cleani
 
 
 
+=============================
+
+EMAIL SERVER (SMTP)
+
+python -m smtpd -n -c DebuggingServer localhost:8025    -> running the server (enter this on the second terminal)
+
+export MAIL_SERVER=smtp.googlemail.com
+export MAIL_PORT=587
+export MAIL_USE_TLS=1
+export MAIL_USERNAME=oskar.testowy@gmail.com
+export MAIL_PASSWORD=Osasuna1
+
+
+=============================
+
+
+
+
 
 
 
