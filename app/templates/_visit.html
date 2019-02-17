@@ -1,11 +1,19 @@
-<table>
-    <tr valign="top">
-        <td><img src="{{ image_file }}" width="60"></td>
-        <td>
-            {{ visit.author.username }} was at: <b>{{ visit.place }}</b><br>
-            Food type: {{ visit.food_type }}&emsp;&emsp;
-            Rate: {{ visit.rate }}<br>
-            {{ visit.body }}
-        </td>
-    </tr>
-</table><br>
+<article class="media content-section">
+    <table>
+        <tr valign="top">
+            <td><img class="rounded-circle post-img" src="{{ image_file }}" width="10" height="60"></td>
+            <td>
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="{{ url_for('user', username=visit.author.username) }}">{{ visit.author.username }}</a>
+                    </div>
+                    <h4>Repeat about <a class="article-title" href="#">{{ visit.place }}</a></h4>
+                    <div class="post-food-type">Food type: {{ visit.food_type }}</div>
+                    <div class="post-description">Rate: {{ visit.rate }}</div>
+                    <div class="post-description">Description: {{ visit.body }}</div>
+                </div>
+            </td>
+            <td><div class="post-timestamp" align="right">{{ visit.timestamp }}</div></td>
+        </tr>
+    </table>
+</article>

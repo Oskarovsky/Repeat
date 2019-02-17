@@ -130,12 +130,16 @@ def user(username):
         form.email.data = user.email
     default = 'default.jpg'
     posts = [
-        {'author': user, 'body': 'Test post #1', 'food_type': 'seafood'},
-        {'author': user, 'body': 'Test post #2', 'food_type': 'polish food'}
+        {'author': user, 'body': 'Test post #1', 'food_type': 'seafood', 'description': 'it is simple way to do that',
+            'timestamp': 'April 21, 2018'},
+        {'author': user, 'body': 'Test post #2', 'food_type': 'polish food', 'description': 'just one way ticket',
+            'timestamp': 'April 24, 2018'}
     ]
     visits = [
-        {'author': user, 'body': 'Test visit #1', 'food_type': 'greece good', 'place': 'BMG', 'rate': 8},
-        {'author': user, 'body': 'Test visit #2', 'food_type': 'traditional food', 'place': 'Kucharek szesc', 'rate': 7}
+        {'author': user, 'body': 'Test visit #1', 'food_type': 'greece good', 'place': 'BMG', 'rate': 8,
+            'timestamp': 'May 11, 2017'},
+        {'author': user, 'body': 'Test visit #2', 'food_type': 'traditional food', 'place': 'Kucharek szesc', 'rate': 7,
+            'timestamp': 'May 14, 2016'}
     ]
     image_file = url_for('static', filename='profile_pics/' + user.image_file)
     return render_template('user.html', user=user, posts=posts, visits=visits, image_file=image_file, form=form)
