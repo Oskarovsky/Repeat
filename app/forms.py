@@ -61,4 +61,18 @@ class UpdateForm(FlaskForm):
 
 
 
+class PostForm(FlaskForm):
+    body = StringField("Title", validators=[DataRequired()])
+    description = TextAreaField('Repeat about something', validators=[DataRequired()])
+    food_type = StringField('Food type', validators=[DataRequired()])
+    submit = SubmitField('Repeat!')
 
+
+
+class VisitForm(FlaskForm):
+    body = StringField("Name", validators=[DataRequired()])
+    food_type = StringField('Food type', validators=[DataRequired()])
+    description = TextAreaField('Repeat about place', validators=[DataRequired()])
+    place = StringField('Place', validators=[DataRequired()])
+    rate = StringField('Your rate', validators=[DataRequired()])
+    submit = SubmitField('Repeat!')

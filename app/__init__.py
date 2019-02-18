@@ -13,7 +13,6 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 db = SQLAlchemy(app)    # object that represents the database
-
 migrate = Migrate(app, db)  # object that represents migration engine
 
 login = LoginManager(app)   # object for managing the user logged-in state

@@ -4,12 +4,13 @@
 {% block content %}
 
     <h1>Hello, {{ current_user.username }}!</h1>
+
     {% for post in posts %}
-        <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
+        {% include '_post.html' %}
     {% endfor %}
 
     {% for visit in visits %}
-        <div><p>{{ visit.author.username }} says: <b>{{ visit.body }}</b></p></div>
+        {% include '_visit.html' %}
     {% endfor %}
 
 {% endblock %}

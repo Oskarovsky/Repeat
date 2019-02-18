@@ -7,7 +7,7 @@ from PIL import Image
 from datetime import datetime
 
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, UpdateForm
+from app.forms import LoginForm, RegistrationForm, UpdateForm, PostForm, VisitForm
 from app.models import User
 
 
@@ -204,3 +204,25 @@ def unfollow(username):
     db.session.commit()
     flash('You are not following {}.'.format(username))
     return redirect(url_for('user', username=username))
+
+
+
+@app.route('/post/new', methods=['GET', 'POST'])
+@login_required
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('index'))
+    return render_template('create_post.html', title='New Post', form=form)
+
+
+
+@app.route('/visit/new', methods=['GET', 'POST'])
+@login_required
+def new_visit():
+    form = VisitForm()
+    if form.validate_on_submit():
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('index'))
+    return render_template('create_visit.html', title='New Visit', form=form)
