@@ -6,15 +6,12 @@ from flask_login import UserMixin
 from app import db, login
 
 
-# function that can be called to load a user given the ID
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
-
 # followers association table
-followers = db.Table('followers',
-                     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-                     db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
+followers = db.Table(
+    'followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,6 +24,13 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
+    followed = db.relationship(
+        'User', secondary=followers,
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.followed_id == id),
+        backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+
+    '''
     # many-to-many relationship
     followed = db.relationship(
         'User',                 # the right side entity of the relationship (the left side entity is the parent class)
@@ -35,6 +39,7 @@ class User(UserMixin, db.Model):
         secondaryjoin=(followers.c.follower_id == id),  # it indicates the condition that links the right side entity
         backref=db.backref('followers', lazy='dynamic'),
         lazy='dynamic')
+        '''
 
     # this method tells how to print objects of this class, which is going to be useful for debugging
     def __repr__(self):
@@ -75,6 +80,12 @@ class User(UserMixin, db.Model):
             filter(followers.c.follower_id == self.id)
         own = Visit.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Visit.timestamp.desc())
+
+
+# function that can be called to load a user given the ID
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 
 
