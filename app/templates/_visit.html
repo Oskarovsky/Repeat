@@ -1,7 +1,7 @@
 <article class="media content-section">
     <table>
         <tr valign="top">
-            <td><img class="rounded-circle post-img" src="{{ image_file }}" width="10" height="60"></td>
+            <td><img class="rounded-circle post-img" src="{{ url_for('static', filename='profile_pics/' + visit.author.image_file) }}" width="10" height="60"></td>
             <td>
                 <div class="media-body">
                     <div class="article-metadata">
@@ -13,7 +13,7 @@
                     <div class="post-description">Description: {{ visit.body }}</div>
                 </div>
             </td>
-            <td><div class="post-timestamp" align="right">{{ visit.timestamp }}</div></td>
+            <td><div class="post-timestamp" align="right">{{ visit.timestamp.strftime('%Y-%m-%d') }}</div></td>
         </tr>
     </table>
 </article>

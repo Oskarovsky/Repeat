@@ -8,8 +8,7 @@ from datetime import datetime
 
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, UpdateForm, PostForm, VisitForm
-from app.models import User
-
+from app.models import User, Post, Visit
 
 
 @app.before_request
@@ -22,31 +21,13 @@ def before_request():
 
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
-    user = {'username': 'Oskar'}
-    posts = [
-        {
-            'author': {'username': 'Gosia'},
-            'body': 'I have made new chocolate cake'
-        },
-        {
-            'author': {'username': 'Misio'},
-            'body': 'This is my dinner, which i did today'
-        }
-    ]
-
-    visits = [
-        {
-            'author': {'username': 'Oski'},
-            'body': 'It was really great pleasure!'
-        },
-        {
-            'author': {'username': 'Dosia'},
-            'body': 'BMG is one of the best restaurant in Warsaw'
-        },
-    ]
-
+    if current_user.is_authenticated:
+        posts = current_user.followed_posts().all()
+        visits = current_user.followed_visits().all()
+    else:
+        posts = Post.query.all()
+        visits = Visit.query.all()
     return render_template('index.html', title='Home Page', posts=posts, visits=visits)
 
 
@@ -129,21 +110,8 @@ def user(username):
     elif request.method == 'GET':
         form.username.data = user.username
         form.email.data = user.email
-    default = 'default.jpg'
-    posts = [
-        {'author': user, 'body': 'Test post #1', 'food_type': 'seafood', 'description': 'it is simple way to do that',
-            'timestamp': 'April 21, 2018'},
-        {'author': user, 'body': 'Test post #2', 'food_type': 'polish food', 'description': 'just one way ticket',
-            'timestamp': 'April 24, 2018'}
-    ]
-    visits = [
-        {'author': user, 'body': 'Test visit #1', 'food_type': 'greece good', 'place': 'BMG', 'rate': 8,
-            'timestamp': 'May 11, 2017'},
-        {'author': user, 'body': 'Test visit #2', 'food_type': 'traditional food', 'place': 'Kucharek szesc', 'rate': 7,
-            'timestamp': 'May 14, 2016'}
-    ]
     image_file = url_for('static', filename='profile_pics/' + user.image_file)
-    return render_template('user.html', user=user, posts=posts, visits=visits, image_file=image_file, form=form)
+    return render_template('user.html', user=user, image_file=image_file, form=form)
 
 
 
@@ -212,6 +180,10 @@ def unfollow(username):
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
+        post = Post(body=form.body.data, description=form.description.data, food_type=form.food_type.data,
+                    author=current_user)
+        db.session.add(post)
+        db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('index'))
     return render_template('create_post.html', title='New Post', form=form)
@@ -223,6 +195,18 @@ def new_post():
 def new_visit():
     form = VisitForm()
     if form.validate_on_submit():
+        visit = Visit(body=form.body.data, food_type=form.food_type.data, description=form.description.data,
+                      place=form.place.data, rate=form.rate.data, author=current_user)
+        db.session.add(visit)
+        db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('index'))
     return render_template('create_visit.html', title='New Visit', form=form)
+
+
+
+@app.route('/explore')
+def explore():
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    visits = Visit.query.order_by(Visit.timestamp.desc()).all()
+    return render_template('index.html', title='Explore', posts=posts, visits=visits)
