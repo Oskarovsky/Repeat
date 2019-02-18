@@ -248,3 +248,18 @@ def explore():
     return render_template('index.html', title='Explore', posts=posts.items, visits=visits.items,
                            next_url_post=next_url_post, prev_url_post=prev_url_post,
                            next_url_visit=next_url_visit, prev_url_visit=prev_url_visit)
+
+
+
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.body, post=post)
+
+
+
+@app.route('/visit/<int:visit_id>')
+def visit(visit_id):
+    visit = Post.query.get_or_404(visit_id)
+    return render_template('visit.html', title=visit.body, visit=visit)
+
