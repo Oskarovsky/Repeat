@@ -29,9 +29,25 @@
             {% include '_post.html' %}
         {% endfor %}
 
+        {% if prev_url_post %}
+            <a href="{{ prev_url_post }}">Newer posts</a>
+        {% endif %}
+
+        {% if next_url_post %}
+            <a href="{{ next_url_post }}">Older posts</a>
+        {% endif %}
+
         {% for visit in visits %}
             {% include '_visit.html' %}
         {% endfor %}
+
+        {% if prev_url_visit %}
+            <a href="{{ prev_url_visit }}">Newer posts</a>
+        {% endif %}
+
+        {% if next_url_visit %}
+            <a href="{{ next_url_visit }}">Older posts</a>
+        {% endif %}
 
     </div>
 

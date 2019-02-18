@@ -22,18 +22,26 @@ def before_request():
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    page = request.args.get('page', 1, type=int)
+    page_posts = request.args.get('page_posts', 1, type=int)
+    page_visits = request.args.get('page_visits', 1, type=int)
     if current_user.is_authenticated:
         posts = current_user.followed_posts().paginate(
-            page, app.config['POSTS_PER_PAGE_INDEX'], False)
+            page_posts, app.config['POSTS_PER_PAGE_INDEX'], False)
         visits = current_user.followed_visits().paginate(
-            page, app.config['VISITS_PER_PAGE_INDEX'], False)
+            page_visits, app.config['VISITS_PER_PAGE_INDEX'], False)
     else:
         posts = Post.query.paginate(
-            page, app.config['POSTS_PER_PAGE_INDEX'], False)
+            page_posts, app.config['POSTS_PER_PAGE_INDEX'], False)
         visits = Visit.query.paginate(
-            page, app.config['VISITS_PER_PAGE_INDEX'], False)
-    return render_template('index.html', title='Home Page', posts=posts.items, visits=visits.items)
+            page_visits, app.config['VISITS_PER_PAGE_INDEX'], False)
+    next_url_post = url_for('index', page_posts=posts.next_num) if posts.has_next else None
+    prev_url_post = url_for('index', page_posts=posts.prev_num) if posts.has_prev else None
+
+    next_url_visit = url_for('index', page_visits=visits.next_num) if visits.has_next else None
+    prev_url_visit = url_for('index', page_visits=visits.next_num) if visits.has_prev else None
+    return render_template('index.html', title='Home Page', posts=posts.items, visits=visits.items,
+                           next_url_post=next_url_post, prev_url_post=prev_url_post,
+                           next_url_visit=next_url_visit, prev_url_visit=prev_url_visit)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -116,13 +124,21 @@ def user(username):
         form.username.data = user.username
         form.email.data = user.email
     image_file = url_for('static', filename='profile_pics/' + user.image_file)
-    page = request.args.get('page', 1, type=int)
+    page_posts = request.args.get('page_posts', 1, type=int)
+    page_visits = request.args.get('page_visits', 1, type=int)
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(
-        page, app.config['POSTS_PER_PAGE_USER'], False)
+        page_posts, app.config['POSTS_PER_PAGE_USER'], False)
     visits = user.visits.order_by(Visit.timestamp.desc()).paginate(
-        page, app.config['VISITS_PER_PAGE_USER'], False)
+        page_visits, app.config['VISITS_PER_PAGE_USER'], False)
+    next_url_post = url_for('index', page_posts=posts.next_num) if posts.has_next else None
+    prev_url_post = url_for('index', page_posts=posts.prev_num) if posts.has_prev else None
+
+    next_url_visit = url_for('index', page_visits=visits.next_num) if visits.has_next else None
+    prev_url_visit = url_for('index', page_visits=visits.next_num) if visits.has_prev else None
     return render_template('user.html', user=user, image_file=image_file,
-                           form=form, posts=posts.items, visits=visits.items)
+                           form=form, posts=posts.items, visits=visits.items,
+                           next_url_post=next_url_post, prev_url_post=prev_url_post,
+                           next_url_visit=next_url_visit, prev_url_visit=prev_url_visit)
 
 
 
@@ -218,9 +234,17 @@ def new_visit():
 
 @app.route('/explore')
 def explore():
-    page = request.args.get('page', 1, type=int)
+    page_posts = request.args.get('page_posts', 1, type=int)
+    page_visits = request.args.get('page_visits', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
-            page, app.config['POSTS_PER_PAGE_EXPLORE'], False)
+            page_posts, app.config['POSTS_PER_PAGE_EXPLORE'], False)
     visits = Visit.query.order_by(Visit.timestamp.desc()).paginate(
-            page, app.config['VISITS_PER_PAGE_EXPLORE'], False)
-    return render_template('index.html', title='Explore', posts=posts.items, visits=visits.items)
+            page_visits, app.config['VISITS_PER_PAGE_EXPLORE'], False)
+    next_url_post = url_for('explore', page_posts=posts.next_num) if posts.has_next else None
+    prev_url_post = url_for('explore', page_posts=posts.prev_num) if posts.has_prev else None
+
+    next_url_visit = url_for('explore', page_visits=visits.next_num) if visits.has_next else None
+    prev_url_visit = url_for('explore', page_visits=visits.next_num) if visits.has_prev else None
+    return render_template('index.html', title='Explore', posts=posts.items, visits=visits.items,
+                           next_url_post=next_url_post, prev_url_post=prev_url_post,
+                           next_url_visit=next_url_visit, prev_url_visit=prev_url_visit)
