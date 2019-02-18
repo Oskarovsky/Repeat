@@ -48,6 +48,22 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    # method for adding relationships
+    def follow(self, user):
+        if not self.is_following(user):
+            self.followed.append(user)
+
+    # method for removing relationships
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.followed.remove(user)
+
+    # method for checking if a link between two users already exists
+    def is_following(self, user):
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
+
+
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
