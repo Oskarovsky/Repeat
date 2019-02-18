@@ -19,16 +19,21 @@ def before_request():
 
 
 
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def index():
+    page = request.args.get('page', 1, type=int)
     if current_user.is_authenticated:
-        posts = current_user.followed_posts().all()
-        visits = current_user.followed_visits().all()
+        posts = current_user.followed_posts().paginate(
+            page, app.config['POSTS_PER_PAGE'], False)
+        visits = current_user.followed_visits().paginate(
+            page, app.config['VISITS_PER_PAGE'], False)
     else:
-        posts = Post.query.all()
-        visits = Visit.query.all()
-    return render_template('index.html', title='Home Page', posts=posts, visits=visits)
+        posts = Post.query.paginate(
+            page, app.config['POSTS_PER_PAGE'], False)
+        visits = Visit.query.paginate(
+            page, app.config['VISITS_PER_PAGE'], False)
+    return render_template('index.html', title='Home Page', posts=posts.items, visits=visits.items)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -111,7 +116,13 @@ def user(username):
         form.username.data = user.username
         form.email.data = user.email
     image_file = url_for('static', filename='profile_pics/' + user.image_file)
-    return render_template('user.html', user=user, image_file=image_file, form=form)
+    page = request.args.get('page', 1, type=int)
+    posts = user.posts.order_by(Post.timestamp.desc()).paginate(
+        page, app.config['POSTS_PER_PAGE'], False)
+    visits = user.visits.order_by(Visit.timestamp.desc()).paginate(
+        page, app.config['VISITS_PER_PAGE'], False)
+    return render_template('user.html', user=user, image_file=image_file,
+                           form=form, posts=posts.items, visits=visits.items)
 
 
 
@@ -207,6 +218,9 @@ def new_visit():
 
 @app.route('/explore')
 def explore():
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
-    visits = Visit.query.order_by(Visit.timestamp.desc()).all()
-    return render_template('index.html', title='Explore', posts=posts, visits=visits)
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
+            page, app.config['POSTS_PER_PAGE'], False)
+    visits = Visit.query.order_by(Visit.timestamp.desc()).paginate(
+            page, app.config['VISITS_PER_PAGE'], False)
+    return render_template('index.html', title='Explore', posts=posts.items, visits=visits.items)

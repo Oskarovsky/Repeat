@@ -19,4 +19,9 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSOWRD')
     ADMINS = ['contact@oskarro.com']        # list of the email addresses that will receive error reports
 
+    # value which determines how many posts will be displayed per page
+    POSTS_PER_PAGE = 5
+
+    # value which determines how many visits will be displayed per page
+    VISITS_PER_PAGE = 5
 
