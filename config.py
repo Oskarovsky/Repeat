@@ -20,8 +20,12 @@ class Config(object):
     ADMINS = ['contact@oskarro.com']        # list of the email addresses that will receive error reports
 
     # value which determines how many posts will be displayed per page
-    POSTS_PER_PAGE = 5
+    POSTS_PER_PAGE_INDEX = 8
+    POSTS_PER_PAGE_EXPLORE = 10
+    POSTS_PER_PAGE_USER = 5
 
     # value which determines how many visits will be displayed per page
-    VISITS_PER_PAGE = 5
+    VISITS_PER_PAGE_INDEX = 8
+    VISITS_PER_PAGE_EXPLORE = 10
+    VISITS_PER_PAGE_USER = 5
 

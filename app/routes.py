@@ -25,14 +25,14 @@ def index():
     page = request.args.get('page', 1, type=int)
     if current_user.is_authenticated:
         posts = current_user.followed_posts().paginate(
-            page, app.config['POSTS_PER_PAGE'], False)
+            page, app.config['POSTS_PER_PAGE_INDEX'], False)
         visits = current_user.followed_visits().paginate(
-            page, app.config['VISITS_PER_PAGE'], False)
+            page, app.config['VISITS_PER_PAGE_INDEX'], False)
     else:
         posts = Post.query.paginate(
-            page, app.config['POSTS_PER_PAGE'], False)
+            page, app.config['POSTS_PER_PAGE_INDEX'], False)
         visits = Visit.query.paginate(
-            page, app.config['VISITS_PER_PAGE'], False)
+            page, app.config['VISITS_PER_PAGE_INDEX'], False)
     return render_template('index.html', title='Home Page', posts=posts.items, visits=visits.items)
 
 
@@ -118,9 +118,9 @@ def user(username):
     image_file = url_for('static', filename='profile_pics/' + user.image_file)
     page = request.args.get('page', 1, type=int)
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(
-        page, app.config['POSTS_PER_PAGE'], False)
+        page, app.config['POSTS_PER_PAGE_USER'], False)
     visits = user.visits.order_by(Visit.timestamp.desc()).paginate(
-        page, app.config['VISITS_PER_PAGE'], False)
+        page, app.config['VISITS_PER_PAGE_USER'], False)
     return render_template('user.html', user=user, image_file=image_file,
                            form=form, posts=posts.items, visits=visits.items)
 
@@ -220,7 +220,7 @@ def new_visit():
 def explore():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
-            page, app.config['POSTS_PER_PAGE'], False)
+            page, app.config['POSTS_PER_PAGE_EXPLORE'], False)
     visits = Visit.query.order_by(Visit.timestamp.desc()).paginate(
-            page, app.config['VISITS_PER_PAGE'], False)
+            page, app.config['VISITS_PER_PAGE_EXPLORE'], False)
     return render_template('index.html', title='Explore', posts=posts.items, visits=visits.items)
