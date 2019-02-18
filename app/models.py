@@ -11,6 +11,10 @@ from app import db, login
 def load_user(id):
     return User.query.get(int(id))
 
+# followers association table
+followers = db.Table('followers',
+                     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+                     db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -22,6 +26,15 @@ class User(UserMixin, db.Model):
     image_file = db.Column(db.String(50), nullable=True, default='default.jpg')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # many-to-many relationship
+    followed = db.relationship(
+        'User',                 # the right side entity of the relationship (the left side entity is the parent class)
+        secondary=followers,    # it configures the association table that is used for the relationship
+        primaryjoin=(followers.c.follower_id == id),    # it indicates the condition that links the left side entity
+        secondaryjoin=(followers.c.follower_id == id),  # it indicates the condition that links the right side entity
+        backref=db.backref('followers', lazy='dynamic'),
+        lazy='dynamic')
 
     # this method tells how to print objects of this class, which is going to be useful for debugging
     def __repr__(self):
