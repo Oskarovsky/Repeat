@@ -277,7 +277,7 @@ def update_post(post_id):
         post.description = form.description.data
         post.food_type = form.food_type.data
         db.session.commit()
-        flash('Your post has been update!', 'success')
+        flash('Your post has been updated!', 'success')
         return redirect(url_for('post', post_id=post.id))
     elif request.method == 'GET':
         form.body.data = post.body
@@ -300,6 +300,9 @@ def update_visit(visit_id):
         visit.description = form.description.data
         visit.rate = form.rate.data
         visit.food_type = form.food_type.data
+        db.session.commit()
+        flash('Your visit has been updated!', 'success')
+        return redirect(url_for('visit', visit_id=visit.id))
     elif request.method == 'GET':
         form.body.data = visit.body
         form.place.data = visit.place
@@ -307,4 +310,30 @@ def update_visit(visit_id):
         form.description.data = visit.description
         form.food_type.data = visit.food_type
     return render_template('create_visit.html', title='Update Visit', form=form, legend='Update Visit')
+
+
+
+@app.route("/post/<int:post_id>/delete", methods=['POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted!', 'success')
+    return redirect(url_for('index'))
+
+
+
+@app.route("/visit/<int:visit_id>/delete", methods=['POST'])
+@login_required
+def delete_visit(visit_id):
+    visit = Visit.query.get_or_404(visit_id)
+    if visit.author != current_user:
+        abort(403)
+    db.session.delete(visit)
+    db.session.commit()
+    flash('Your visit has been deleted!', 'success')
+    return redirect(url_for('index'))
 
