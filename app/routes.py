@@ -1,6 +1,6 @@
 import secrets
 import os
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, abort
 from flask_login import current_user, logout_user, login_user, login_required
 from werkzeug.urls import url_parse
 from PIL import Image
@@ -260,6 +260,25 @@ def post(post_id):
 
 @app.route('/visit/<int:visit_id>')
 def visit(visit_id):
+    visit = Post.query.get_or_404(visit_id)
+    return render_template('visit.html', title=visit.body, visit=visit)
+
+
+
+@app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    return render_template('create_post.html', title='Update Post', form=form)
+
+
+
+@app.route('/visit/<int:visit_id>/update')
+@login_required
+def update_visit(visit_id):
     visit = Post.query.get_or_404(visit_id)
     return render_template('visit.html', title=visit.body, visit=visit)
 
