@@ -213,7 +213,7 @@ def new_post():
         db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('index'))
-    return render_template('create_post.html', title='New Post', form=form)
+    return render_template('create_post.html', title='New Post', form=form, legend='New Post')
 
 
 
@@ -228,7 +228,7 @@ def new_visit():
         db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('index'))
-    return render_template('create_visit.html', title='New Visit', form=form)
+    return render_template('create_visit.html', title='New Visit', form=form, legend='New Visit')
 
 
 
@@ -260,7 +260,7 @@ def post(post_id):
 
 @app.route('/visit/<int:visit_id>')
 def visit(visit_id):
-    visit = Post.query.get_or_404(visit_id)
+    visit = Visit.query.get_or_404(visit_id)
     return render_template('visit.html', title=visit.body, visit=visit)
 
 
@@ -272,13 +272,39 @@ def update_post(post_id):
     if post.author != current_user:
         abort(403)
     form = PostForm()
-    return render_template('create_post.html', title='Update Post', form=form)
+    if form.validate_on_submit():
+        post.body = form.body.data
+        post.description = form.description.data
+        post.food_type = form.food_type.data
+        db.session.commit()
+        flash('Your post has been update!', 'success')
+        return redirect(url_for('post', post_id=post.id))
+    elif request.method == 'GET':
+        form.body.data = post.body
+        form.description.data = post.description
+        form.food_type.data = post.food_type
+    return render_template('create_post.html', title='Update Post', form=form, legend='Update Post')
 
 
 
-@app.route('/visit/<int:visit_id>/update')
+@app.route('/visit/<int:visit_id>/update', methods=['GET', 'POST'])
 @login_required
 def update_visit(visit_id):
-    visit = Post.query.get_or_404(visit_id)
-    return render_template('visit.html', title=visit.body, visit=visit)
+    visit = Visit.query.get_or_404(visit_id)
+    if visit.author != current_user:
+        abort(403)
+    form = VisitForm()
+    if form.validate_on_submit():
+        visit.body = form.body.data
+        visit.place = form.place.data
+        visit.description = form.description.data
+        visit.rate = form.rate.data
+        visit.food_type = form.food_type.data
+    elif request.method == 'GET':
+        form.body.data = visit.body
+        form.place.data = visit.place
+        form.rate.data = visit.rate
+        form.description.data = visit.description
+        form.food_type.data = visit.food_type
+    return render_template('create_visit.html', title='Update Visit', form=form, legend='Update Visit')
 
