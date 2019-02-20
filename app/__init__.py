@@ -2,6 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_mail import Mail
 
 import os
 from config import Config
@@ -18,6 +19,8 @@ migrate = Migrate(app, db)  # object that represents migration engine
 login = LoginManager(app)   # object for managing the user logged-in state
 login.login_view = 'login'  # function (or endpoint) name for the login view. this is the name to use in a url_for()
 
+mail = Mail(app)    # instance of email object
+
 from app import routes, models, errors
 
 
@@ -28,7 +31,7 @@ if not app.debug:
         if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
             auth = (app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD'])
         secure = None
-        if app.config['MAIN_USE_TLS']:
+        if app.config['MAIL_USE_TLS']:
             secure=()
         mail_handler = SMTPHandler(
             mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),

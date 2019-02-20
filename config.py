@@ -16,8 +16,8 @@ class Config(object):
     MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None   #boolean flag to enable encrypted connections
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSOWRD')
-    ADMINS = ['contact@oskarro.com']        # list of the email addresses that will receive error reports
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    ADMINS = ['oskar.testowy@gmail.com']        # list of the email addresses that will receive error reports
 
     # value which determines how many posts will be displayed per page
     POSTS_PER_PAGE_INDEX = 1
