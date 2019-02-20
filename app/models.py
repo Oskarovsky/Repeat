@@ -2,8 +2,10 @@ from datetime import datetime
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+import jwt
+from time import time
 
-from app import db, login
+from app import db, login, app
 
 
 # followers association table
@@ -43,33 +45,51 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    # method for adding relationships
+    # function for adding relationships
     def follow(self, user):
         if not self.is_following(user):
             self.followed.append(user)
 
-    # method for removing relationships
+    # function for removing relationships
     def unfollow(self, user):
         if self.is_following(user):
             self.followed.remove(user)
 
-    # method for checking if a link between two users already exists
+    # function for checking if a link between two users already exists
     def is_following(self, user):
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
-    # method for obtaining posts from followed users
+    # function for obtaining posts from followed users
     def followed_posts(self):
         followed = Post.query.join(followers, (followers.c.followed_id == Post.user_id)).\
             filter(followers.c.follower_id == self.id)
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
 
-    # method for obtaining visits from followed users
+    # function for obtaining visits from followed users
     def followed_visits(self):
         followed = Visit.query.join(followers, (followers.c.followed_id == Visit.user_id)).\
             filter(followers.c.follower_id == self.id)
         own = Visit.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Visit.timestamp.desc())
+
+    # function for generating a JWT token as a string
+    def get_reset_password_token(self, expires_in=600):
+        return jwt.encode(
+            {'reset_password': self.id, 'exp': time() + expires_in},
+            app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+    # static method, which can be invoked directly from the class
+    # static methods don't receive the class as a first argument
+    # This method takes a token and attempts to decode it by invoking PyJWT's jwt.decode() function
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'],
+                            algorithms=['HS256'])['reset_password']
+        except:
+            return
+        return User.query.get(id)
 
 
 # function that can be called to load a user given the ID
