@@ -3,6 +3,8 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_moment import Moment
+from flask_bootstrap import Bootstrap
 
 import os
 from config import Config
@@ -18,6 +20,10 @@ migrate = Migrate(app, db)  # object that represents migration engine
 
 login = LoginManager(app)   # object for managing the user logged-in state
 login.login_view = 'login'  # function (or endpoint) name for the login view. this is the name to use in a url_for()
+
+moment = Moment(app)    # object for time and data rendering
+
+bootstrap = Bootstrap   # object which provides a ready to use base template that has the bootstrap framework installed
 
 mail = Mail(app)    # instance of email object
 
