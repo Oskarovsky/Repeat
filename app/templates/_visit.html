@@ -6,6 +6,7 @@
                 <div class="media-body">
                     <div class="article-metadata">
                         <a class="mr-2" href="{{ url_for('user', username=visit.author.username) }}">{{ visit.author.username }}</a>
+                        repeat {{ moment(visit.timestamp).fromNow() }}:
                     </div>
                     <h4><a class="article-title" href="{{ url_for('visit', visit_id=visit.id) }}">{{ visit.place }}</a></h4>
                     <div class="post-food-type">Food type: {{ visit.food_type }}</div>
