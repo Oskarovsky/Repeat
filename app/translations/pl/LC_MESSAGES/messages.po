@@ -1,0 +1,366 @@
+# Polish translations for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-02-27 21:22+0100\n"
+"PO-Revision-Date: 2019-02-27 21:22+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pl\n"
+"Language-Team: pl <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: app/__init__.py:28
+msgid "Please log in to accesss this page"
+msgstr ""
+
+#: app/forms.py:11 app/forms.py:19 app/forms.py:40
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: app/forms.py:12 app/forms.py:21 app/forms.py:90
+msgid "Password"
+msgstr "Hasło"
+
+#: app/forms.py:13
+msgid "Remember Me"
+msgstr "Zapamiętaj"
+
+#: app/forms.py:14 app/templates/register.html:46
+msgid "Sign In"
+msgstr "Zaloguj"
+
+#: app/forms.py:20 app/forms.py:41 app/forms.py:84
+msgid "Email"
+msgstr "Email"
+
+#: app/forms.py:22
+msgid "Repeat password"
+msgstr "Powtórz hasło"
+
+#: app/forms.py:23 app/templates/base.html:50
+msgid "Register"
+msgstr "Zarejestruj"
+
+#: app/forms.py:29 app/forms.py:53
+msgid "Please use a different username."
+msgstr "Podana nazwa użytkownika jest już zajęta"
+
+#: app/forms.py:35 app/forms.py:61
+msgid "Please use a different email address."
+msgstr "Podany adres email już jest w naszej bazie danych"
+
+#: app/forms.py:42
+msgid "Update Profile Picture"
+msgstr "Zmień zdjęcie profilowe"
+
+#: app/forms.py:43
+msgid "About me"
+msgstr "O mnie"
+
+#: app/forms.py:44 app/templates/post.html:22 app/templates/visit.html:24
+msgid "Update"
+msgstr "Uaktualnij"
+
+#: app/forms.py:66
+msgid "Title"
+msgstr "Nazwa"
+
+#: app/forms.py:67
+msgid "Repeat about something"
+msgstr "Opowiedz o czymś..."
+
+#: app/forms.py:68 app/forms.py:75
+msgid "Food type"
+msgstr "Rodzaj"
+
+#: app/forms.py:69 app/forms.py:79
+msgid "Repeat!"
+msgstr "Repeat!"
+
+#: app/forms.py:74
+msgid "Name"
+msgstr "Nazwa"
+
+#: app/forms.py:76
+msgid "Repeat about place"
+msgstr "Opowiedz o miejscu"
+
+#: app/forms.py:77
+msgid "Place"
+msgstr "Lokalizacja"
+
+#: app/forms.py:78
+msgid "Your rate"
+msgstr "Twoja ocena"
+
+#: app/forms.py:85 app/forms.py:92
+msgid "Request Password Reset"
+msgstr "Zresetuj hasło"
+
+#: app/forms.py:91
+msgid "Repeat Password"
+msgstr "Powtórz hasło"
+
+#: app/routes.py:61
+msgid "Invalid username or password"
+msgstr "Niepoprawna nazwa użytkownika lub hasło"
+
+#: app/routes.py:63
+msgid "You have been logged in!"
+msgstr "Już jesteś zalogowany"
+
+#: app/routes.py:127 app/routes.py:170
+msgid "Your account has been updated!"
+msgstr "Twój profil został zaktualizowany"
+
+#: app/routes.py:186 app/routes.py:203
+#, python-format
+msgid "User %(username)s not found."
+msgstr "Użytkownik %(username)s nie został znaleziony."
+
+#: app/routes.py:189
+msgid "You cannot follow yourself!"
+msgstr "Nie możesz obserwować swojego profilu"
+
+#: app/routes.py:193
+#, python-format
+msgid "You are following %(username)s !"
+msgstr "Obserwujesz %(username)s !"
+
+#: app/routes.py:206
+msgid "You cannot unfollow yourself!"
+msgstr "Nie możesz obserwować swojego profilu"
+
+#: app/routes.py:210
+#, python-format
+msgid "You are not following %(username)s."
+msgstr "Już nie obserwujesz %(username)s !"
+
+#: app/routes.py:224 app/routes.py:239
+msgid "Your post has been created!"
+msgstr "Twój post został dodany"
+
+#: app/routes.py:290
+msgid "Your post has been updated!"
+msgstr "Twój post został zaktualizowany"
+
+#: app/routes.py:314
+msgid "Your visit has been updated!"
+msgstr "Twoja opinia została zaktualizowana"
+
+#: app/routes.py:334
+msgid "Your post has been deleted!"
+msgstr "Twój post został usunięty"
+
+#: app/routes.py:347
+msgid "Your visit has been deleted!"
+msgstr "Twoja opinia została usunięta"
+
+#: app/routes.py:360
+msgid "Check your email for the instructions to reset your password"
+msgstr "Sprawdź pocztę i postępuj zgodnie z instrukcjami żeby zresetować hasło"
+
+#: app/routes.py:377
+msgid "Your password has been reset."
+msgstr "Twoje hasło zostało zresetowane"
+
+#: app/templates/404.html:5
+msgid "File Not Found"
+msgstr "Nie znaleziono pliku"
+
+#: app/templates/404.html:6 app/templates/500.html:7
+msgid "Back"
+msgstr "Wróć"
+
+#: app/templates/500.html:5
+msgid "An unexpected error has occurred"
+msgstr "Wystąpił nieoczekiwany błąd"
+
+#: app/templates/500.html:6
+msgid "The administrator has been notified. Sorry for the inconvenience!"
+msgstr "Administrator już otrzymał informację o błędzie. Przepraszamy za kłopoty."
+
+#: app/templates/_post.html:11
+#, python-format
+msgid "%(username)s said %(when)s"
+msgstr "%(username)s powiedział %(when)s"
+
+#: app/templates/_post.html:15 app/templates/_visit.html:15
+#: app/templates/post.html:15 app/templates/visit.html:15
+msgid "Food type:"
+msgstr "Rodzaj kuchni:"
+
+#: app/templates/_post.html:16 app/templates/post.html:16
+#: app/templates/visit.html:17
+msgid "Description:"
+msgstr "Opis:"
+
+#: app/templates/_visit.html:11
+#, python-format
+msgid "%(username)s repeat %(when)s"
+msgstr "%(username)s powtórzył %(when)s"
+
+#: app/templates/_visit.html:16 app/templates/visit.html:16
+msgid "Rate:"
+msgstr "Ocena:"
+
+#: app/templates/_visit.html:17
+msgid "Description"
+msgstr "Opis:"
+
+#: app/templates/base.html:37
+msgid "Home"
+msgstr "Strona główna"
+
+#: app/templates/base.html:38
+msgid "About"
+msgstr "O stronie"
+
+#: app/templates/base.html:42
+msgid "Explore"
+msgstr "Przeglądaj"
+
+#: app/templates/base.html:44
+msgid "New dish"
+msgstr "Dodaj post"
+
+#: app/templates/base.html:45
+msgid "New visit"
+msgstr "Dodaj opinię"
+
+#: app/templates/base.html:46
+msgid "Account"
+msgstr "Twój profil"
+
+#: app/templates/base.html:47
+msgid "Logout"
+msgstr "Wyloguj"
+
+#: app/templates/base.html:49
+msgid "Login"
+msgstr "Zaloguj"
+
+#: app/templates/base.html:73
+msgid "Our sidebar"
+msgstr "Panel boczny"
+
+#: app/templates/base.html:74
+msgid "You can put any information here you like."
+msgstr "Możesz tutaj wstawić dowolne informacje"
+
+#: app/templates/base.html:76
+msgid "Lastest posts"
+msgstr "Ostatnie posty"
+
+#: app/templates/base.html:77
+msgid "Announcements"
+msgstr "Ogłoszenia"
+
+#: app/templates/base.html:78
+msgid "Calendar"
+msgstr "Kalendarz"
+
+#: app/templates/base.html:79
+msgid "etc"
+msgstr "etc"
+
+#: app/templates/index.html:7
+msgid "Hello"
+msgstr "Witaj"
+
+#: app/templates/index.html:15 app/templates/user.html:33
+#: app/templates/user.html:45
+msgid "Newer posts"
+msgstr "Nowsze posty"
+
+#: app/templates/index.html:19 app/templates/user.html:37
+#: app/templates/user.html:49
+msgid "Older posts"
+msgstr "Strasze posty"
+
+#: app/templates/index.html:27
+msgid "Newer visits"
+msgstr "Nowsze opinie"
+
+#: app/templates/index.html:31
+msgid "Older visits"
+msgstr "Starsze opinie"
+
+#: app/templates/login.html:28
+msgid "Forgot your password?"
+msgstr "Zapomniałeś hasła?"
+
+#: app/templates/login.html:28
+msgid "Click to reset it!"
+msgstr "Zresetuj hasło!"
+
+#: app/templates/login.html:29
+msgid "New User?"
+msgstr "Jesteś nowy?"
+
+#: app/templates/login.html:29
+msgid "Click to register"
+msgstr "Zarejestruj się"
+
+#: app/templates/post.html:23 app/templates/visit.html:25
+msgid "Delete"
+msgstr "Usuń"
+
+#: app/templates/post.html:37 app/templates/visit.html:38
+msgid "Delete post?"
+msgstr "Usunąć post?"
+
+#: app/templates/post.html:43 app/templates/visit.html:44
+msgid "Close"
+msgstr "Zamknij"
+
+#: app/templates/register.html:9
+msgid "Join Today"
+msgstr "Dołącz do nas!"
+
+#: app/templates/register.html:46
+msgid "Already have an accout?"
+msgstr "Masz już konto?"
+
+#: app/templates/reset_password.html:5
+msgid "Reset your password"
+msgstr "Zresetuj hasło"
+
+#: app/templates/reset_password_request.html:5
+msgid "Reset password"
+msgstr "Zresetuj hasło"
+
+#: app/templates/user.html:11
+msgid "followers"
+msgstr "Obserwujący"
+
+#: app/templates/user.html:11
+msgid "following"
+msgstr "Obserwowani"
+
+#: app/templates/user.html:16
+msgid "Last seen on:"
+msgstr "Ostatnio widziany:"
+
+#: app/templates/user.html:19
+msgid "Edit your profile"
+msgstr "Edytuj swój profil"
+
+#: app/templates/user.html:21
+msgid "Follow"
+msgstr "Obserwuj"
+
+#: app/templates/user.html:23
+msgid "Unfollow"
+msgstr "Przestań obserwować"
+

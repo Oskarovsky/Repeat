@@ -35,7 +35,6 @@ mail = Mail(app)    # instance of email object
 
 babel = Babel(app)  # object that makes working with translation very easy
 
-from app import routes, models, errors
 
 
 if not app.debug:
@@ -76,5 +75,4 @@ if not app.debug:
 def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
-
-
+from app import routes, models, errors

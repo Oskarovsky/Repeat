@@ -51,6 +51,25 @@ export MAIL_PASSWORD=Osasuna1
 =============================
 
 
+TRANSLATING WORDS
+
+NEW
+1) pybabel extract -F babel.cfg -k _l -o messages.pot .     -> create main messages.pot
+2) pybabel init -i messages.pot -d app/translations -l pl   -> create for proper language file
+3) edit words in that new file (app/translations/pl/LC_MESSAGES/messages.po)
+4) pybabel compile -d app/translations      -> compile all the translations for the application
+
+UPDATE
+1) Edit/add new words in file (app/translations/pl/LC_MESSAGES/messages.po)
+2) pybabel extract -F babel.cfg -k _l -o messages.pot .
+3) pybabel update -i messages.pot -d app/translations
+
+
+flask translate init LANG       -> to add a new language
+flask translate update          -> to update all language repositories
+flask translate compile         -> to compile all language repositories
+
+=============================
 
 
 

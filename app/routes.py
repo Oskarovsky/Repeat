@@ -1,7 +1,9 @@
 import secrets
 import os
-from flask import render_template, flash, redirect, url_for, request, abort
+from flask import render_template, flash, redirect, url_for, request, abort, g
 from flask_login import current_user, logout_user, login_user, login_required
+from flask_babel import get_locale
+from flask_babel import lazy_gettext as _l
 from werkzeug.urls import url_parse
 from PIL import Image
 from datetime import datetime
@@ -19,6 +21,7 @@ def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
+    g.locale = str(get_locale())    # function which returns a locale object
 
 
 
@@ -55,9 +58,9 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password', 'danger')
+            flash(_l('Invalid username or password'), 'danger')
             return redirect(url_for('login'))
-        flash('You have been logged in!', 'success')
+        flash(_l('You have been logged in!'), 'success')
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
@@ -121,7 +124,7 @@ def user(username):
         user.username = form.username.data
         user.email = form.email.data
         db.session.commit()
-        flash('Your account has been updated!', 'success')
+        flash(_l('Your account has been updated!'), 'success')
         return redirect(url_for('user', username=form.username.data, email=form.email.data))
     elif request.method == 'GET':
         form.username.data = user.username
@@ -164,7 +167,7 @@ def edit_profile(username):
         current_user.about_me = form.about_me.data
         current_user.email = form.email.data
         db.session.commit()
-        flash('Your account has been updated!', 'success')
+        flash(_l('Your account has been updated!'), 'success')
         return redirect(url_for('user', username=form.username.data, email=form.email.data, about_me=form.about_me.data))
     elif request.method == 'GET':
         form.username.data = current_user.username
@@ -180,14 +183,14 @@ def edit_profile(username):
 def follow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash('User {} not found.'.format(username))
+        flash(_l('User %(username)s not found.', username=username))
         return redirect(url_for('index'))
     if user == current_user:
-        flash('You cannot follow yourself!')
+        flash(_l('You cannot follow yourself!'))
         return redirect(url_for('user', username=username))
     current_user.follow(user)
     db.session.commit()
-    flash('You are following {}!'.format(username))
+    flash(_l('You are following %(username)s !', username=username))
     return redirect(url_for('user', username=username))
 
 
@@ -197,14 +200,14 @@ def follow(username):
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash('User {} not found.'.format(username))
+        flash(_l('User %(username)s not found.', username=username))
         return redirect(url_for('index'))
     if user == current_user:
-        flash('You cannot unfollow yourself!')
+        flash(_l('You cannot unfollow yourself!'))
         return redirect(url_for('user', username=username))
     current_user.unfollow(user)
     db.session.commit()
-    flash('You are not following {}.'.format(username))
+    flash(_l('You are not following %(username)s.', username=username))
     return redirect(url_for('user', username=username))
 
 
@@ -218,7 +221,7 @@ def new_post():
                     author=current_user)
         db.session.add(post)
         db.session.commit()
-        flash('Your post has been created!', 'success')
+        flash(_l('Your post has been created!'), 'success')
         return redirect(url_for('index'))
     return render_template('create_post.html', title='New Post', form=form, legend='New Post')
 
@@ -233,7 +236,7 @@ def new_visit():
                       place=form.place.data, rate=form.rate.data, author=current_user)
         db.session.add(visit)
         db.session.commit()
-        flash('Your post has been created!', 'success')
+        flash(_l('Your post has been created!'), 'success')
         return redirect(url_for('index'))
     return render_template('create_visit.html', title='New Visit', form=form, legend='New Visit')
 
@@ -284,7 +287,7 @@ def update_post(post_id):
         post.description = form.description.data
         post.food_type = form.food_type.data
         db.session.commit()
-        flash('Your post has been updated!', 'success')
+        flash(_l('Your post has been updated!'), 'success')
         return redirect(url_for('post', post_id=post.id))
     elif request.method == 'GET':
         form.body.data = post.body
@@ -308,7 +311,7 @@ def update_visit(visit_id):
         visit.rate = form.rate.data
         visit.food_type = form.food_type.data
         db.session.commit()
-        flash('Your visit has been updated!', 'success')
+        flash(_l('Your visit has been updated!'), 'success')
         return redirect(url_for('visit', visit_id=visit.id))
     elif request.method == 'GET':
         form.body.data = visit.body
@@ -328,7 +331,7 @@ def delete_post(post_id):
         abort(403)
     db.session.delete(post)
     db.session.commit()
-    flash('Your post has been deleted!', 'success')
+    flash(_l('Your post has been deleted!'), 'success')
     return redirect(url_for('index'))
 
 
@@ -341,7 +344,7 @@ def delete_visit(visit_id):
         abort(403)
     db.session.delete(visit)
     db.session.commit()
-    flash('Your visit has been deleted!', 'success')
+    flash(_l('Your visit has been deleted!'), 'success')
     return redirect(url_for('index'))
 
 
@@ -354,7 +357,7 @@ def reset_password_request():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             send_password_reset_email(user)
-        flash('Check your email for the instructions to reset your password')
+        flash(_l('Check your email for the instructions to reset your password'))
         return redirect(url_for('login'))
     return render_template('reset_password_request.html', title='Reset Password', form=form)
 
@@ -371,6 +374,6 @@ def reset_password(token):
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
-        flash('Your password has been reset.')
+        flash(_l('Your password has been reset.'))
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
