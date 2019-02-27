@@ -21,7 +21,7 @@ msgstr ""
 
 #: app/__init__.py:28
 msgid "Please log in to accesss this page"
-msgstr ""
+msgstr "Nie możesz przeglądać tej strony. Musisz się zalogować."
 
 #: app/forms.py:11 app/forms.py:19 app/forms.py:40
 msgid "Username"
@@ -203,7 +203,7 @@ msgstr "Rodzaj kuchni:"
 #: app/templates/_post.html:16 app/templates/post.html:16
 #: app/templates/visit.html:17
 msgid "Description:"
-msgstr "Opis:"
+msgstr "Opis"
 
 #: app/templates/_visit.html:11
 #, python-format
@@ -211,8 +211,8 @@ msgid "%(username)s repeat %(when)s"
 msgstr "%(username)s powtórzył %(when)s"
 
 #: app/templates/_visit.html:16 app/templates/visit.html:16
-msgid "Rate:"
-msgstr "Ocena:"
+msgid "Rate"
+msgstr "Ocena"
 
 #: app/templates/_visit.html:17
 msgid "Description"
