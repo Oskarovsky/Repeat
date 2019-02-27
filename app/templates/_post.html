@@ -5,16 +5,20 @@
             <td>
                 <div class="media-body">
                     <div class="article-metadata">
-                        <a class="mr-2" href="{{ url_for('user', username=post.author.username) }}">{{ post.author.username }}</a>
-                        said {{ moment(post.timestamp).fromNow() }}:
+                        {% set user_link %}
+                            <a class="mr-2" href="{{ url_for('user', username=post.author.username) }}">{{ post.author.username }}</a>
+                        {% endset %}
+                        {{  _('%(username)s said %(when)s',
+                                username=user_link, when=moment(post.timestamp).fromNow()) }}
                     </div>
                     <h4><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.body }}</a></h4>
-                    <div class="post-food-type">Food type: {{ post.food_type }}</div>
-                    <div class="post-description">Description: {{ post.description }}</div>
+                    <div class="post-food-type">{{ _('Food type:') }} {{ post.food_type }}</div>
+                    <div class="post-description">{{ _('Description:') }}: {{ post.description }}</div>
                 </div>
             </td>
             <td><a class="text-muted" align="right">{{ post.timestamp.strftime('%Y-%m-%d') }}</a></td>
         </tr>
     </table>
 </article>
+
 

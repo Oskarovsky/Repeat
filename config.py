@@ -29,3 +29,5 @@ class Config(object):
     VISITS_PER_PAGE_EXPLORE = 1
     VISITS_PER_PAGE_USER = 1
 
+    # value which keeps track of the list of supported languages
+    LANGUAGES = ['en', 'pl']

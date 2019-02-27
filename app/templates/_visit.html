@@ -5,16 +5,20 @@
             <td>
                 <div class="media-body">
                     <div class="article-metadata">
-                        <a class="mr-2" href="{{ url_for('user', username=visit.author.username) }}">{{ visit.author.username }}</a>
-                        repeat {{ moment(visit.timestamp).fromNow() }}:
+                        {% set user_link %}
+                            <a class="mr-2" href="{{ url_for('user', username=visit.author.username) }}">{{ visit.author.username }}</a>
+                        {% endset %}
+                        {{  _('%(username)s repeat %(when)s',
+                                username=user_link, when=moment(visit.timestamp).fromNow()) }}
                     </div>
                     <h4><a class="article-title" href="{{ url_for('visit', visit_id=visit.id) }}">{{ visit.place }}</a></h4>
-                    <div class="post-food-type">Food type: {{ visit.food_type }}</div>
-                    <div class="post-description">Rate: {{ visit.rate }}</div>
-                    <div class="post-description">Description: {{ visit.body }}</div>
+                    <div class="post-food-type">{{ _('Food type:') }} {{ visit.food_type }}</div>
+                    <div class="post-description">{{ _('Rate:') }}: {{ visit.rate }}</div>
+                    <div class="post-description">{{ _('Description') }} {{ visit.body }}</div>
                 </div>
             </td>
             <td><div class="post-timestamp" align="right">{{ visit.timestamp.strftime('%Y-%m-%d') }}</div></td>
         </tr>
     </table>
 </article>
+

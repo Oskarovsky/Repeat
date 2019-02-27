@@ -6,6 +6,7 @@ from werkzeug.urls import url_parse
 from PIL import Image
 from datetime import datetime
 
+
 from app import app, db
 from app.email import send_password_reset_email
 from app.forms import LoginForm, RegistrationForm, UpdateForm, PostForm, VisitForm, ResetPasswordRequestForm, \

@@ -4,7 +4,7 @@
 {% block content %}
 
     {% if current_user.is_authenticated %}
-        <h1>Hello, {{ current_user.username }}!</h1>
+        <h1>{{ _('Hello') }}, {{ current_user.username }}!</h1>
     {% endif %}
 
     {% for post in posts %}
@@ -12,11 +12,11 @@
     {% endfor %}
 
     {% if prev_url_post %}
-        <a href="{{ prev_url_post }}">Newer posts</a>
+        <a href="{{ prev_url_post }}">{{ _('Newer posts') }}</a>
     {% endif %}
 
     {% if next_url_post %}
-        <a href="{{ next_url_post }}">Older posts</a>
+        <a href="{{ next_url_post }}">{{ _('Older posts') }}</a>
     {% endif %}
 
     {% for visit in visits %}
@@ -24,11 +24,11 @@
     {% endfor %}
 
     {% if prev_url_visit %}
-        <a href="{{ prev_url_visit }}">Newer visits</a>
+        <a href="{{ prev_url_visit }}">{{ _('Newer visits') }}</a>
     {% endif %}
 
     {% if next_url_visit %}
-        <a href="{{ next_url_visit }}">Older visits</a>
+        <a href="{{ next_url_visit }}">{{ _('Older visits') }}</a>
     {% endif %}
 
 

@@ -1,15 +1,20 @@
-from flask import Flask
+from flask import Flask, request
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_moment import Moment
 from flask_bootstrap import Bootstrap
+from flask_babel import Babel
+from flask_babel import lazy_gettext as _l
+
 
 import os
 from config import Config
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
+
+
 
 app = Flask(__name__)
 
@@ -20,12 +25,15 @@ migrate = Migrate(app, db)  # object that represents migration engine
 
 login = LoginManager(app)   # object for managing the user logged-in state
 login.login_view = 'login'  # function (or endpoint) name for the login view. this is the name to use in a url_for()
+login.login_message = _l('Please log in to accesss this page')  # wrapper with the function for lazy processing
 
 moment = Moment(app)    # object for time and data rendering
 
 bootstrap = Bootstrap   # object which provides a ready to use base template that has the bootstrap framework installed
 
 mail = Mail(app)    # instance of email object
+
+babel = Babel(app)  # object that makes working with translation very easy
 
 from app import routes, models, errors
 
@@ -61,5 +69,12 @@ if not app.debug:
 
     app.logger.setLevel(logging.INFO)
     app.logger.info('RepEAT startup')
+
+
+# this function is invoked for each request to select a language translation to use for that request
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
+
 
 
